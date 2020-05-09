@@ -16,7 +16,11 @@
             <StackPanel Grid.Column="0" Margin="20" Height="auto" Width="auto">
             <Button x:Name="LoadFileBtn" Click="LoadFileBtn_Click" Content="Load Data File" Margin="0,0,0,10"/>
             <Button x:Name="RemoveOutOfStockItemsBtn" Click="RemoveOutOfStockItemsBtn_Click" Content="Delete out-of-stock" Margin="0,0,0,10"/>
-            </StackPanel>
+            <Label x:Name="FileName" Margin="0,0,0,10"></Label>
+            <CheckBox x:Name="DelayProgress" Margin="0,0,0,10">Simulate Delay</CheckBox>
+            <Label x:Name="TotalLoadedBooks" Margin="0,0,0,10"></Label>
+            <Label x:Name="CurrentTotalBooks" Margin="0,0,0,10"></Label>
+        </StackPanel>
         <DataGrid Grid.Column="1" x:Name="mainDataGrid" HorizontalAlignment="Left" Height="auto" Width="auto" Margin="20" VerticalAlignment="Top" CanUserAddRows="False" AutoGenerateColumns="False">
                 <DataGrid.RowStyle>
                     <Style TargetType="DataGridRow">

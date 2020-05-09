@@ -1,4 +1,5 @@
 ﻿using IsarAerospace.CsvLoader;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -18,30 +19,6 @@ namespace IsarAerospace.DataViewer
             InitializeComponent();
             Books = new ObservableCollection<Book>();
             mainDataGrid.ItemsSource = Books;
-            InitSampleData();
-        }
-
-        private void InitSampleData()
-        {
-            Random random = new Random();
-            for (int i = 0; i < 50; i++)
-            {
-                Books.Add(new Book()
-                {
-                    Title = $"Title {i}",
-                    Author = $"Author {i} ",
-                    Year = random.Next(1990,2020),
-                    Price = random.Next(0,3000),
-                    InStock = random.Next()%2==0,
-                    Binding = new List<string>(){
-                    "Winner of the 1973 National Book Award",
-                    "Gravity's Rainbow is a postmodern epic",
-                    "a work as exhaustively significant to the second half of the 20th century as Joyce's Ulysses was to the first. Its sprawling",
-                    "encyclopedic narrative, and penetrating analysis of the impact of technology on society make it an intellectual tour de force. Ignition!: An informal history of liquid rocket propellants encyclopedic narrative, and penetrating analysis of the impact of technology on society make it an intellectual tour de force. Ignition!: An informal history of liquid rocket propellants"
-                    },
-                    Description = $"This is Awsome {i}"
-                });
-            }
         }
 
         private void RemoveOutOfStockItemsBtn_Click(object sender, RoutedEventArgs e)
@@ -53,7 +30,30 @@ namespace IsarAerospace.DataViewer
 
         private void LoadFileBtn_Click(object sender, RoutedEventArgs e)
         {
-            InitSampleData();
+
+            // Create OpenFileDialog
+            OpenFileDialog openFileDlg = new OpenFileDialog();
+
+            // Launch OpenFileDialog by calling ShowDialog method
+            var result = openFileDlg.ShowDialog();
+
+            // Load content of file in a TextBlock
+            if (result == true)
+            {
+                FileName.Content= $"Loading File: {openFileDlg.SafeFileName}";
+                CsvHandler csvHandler = new CsvHandler(openFileDlg.FileName, DelayProgress.IsChecked.Value)
+                {
+                    NotifyProgressDel = NewItemLoaded
+                };
+            }
         }
+
+        private void NewItemLoaded(object book,int index)
+        {
+            Books.Add(book as Book);
+            TotalLoadedBooks.Content = $"Total Loaded Books Now : {index}";
+            CurrentTotalBooks.Content = $"Current Books Count : {Books.Count}";
+        }
+
     }
 }
