@@ -1,9 +1,6 @@
 ﻿using IsarAerospace.CsvLoader;
 using Microsoft.Win32;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Windows;
 
 namespace IsarAerospace.DataViewer
@@ -13,7 +10,9 @@ namespace IsarAerospace.DataViewer
     /// </summary>
     public partial class MainWindow : Window
     {
-        public ObservableCollection<Book> Books{ get; set; }
+        private CsvHandler _csvHandler;
+
+        public ObservableCollection<Book> Books { get; set; }
         public MainWindow()
         {
             InitializeComponent();
@@ -40,20 +39,36 @@ namespace IsarAerospace.DataViewer
             // Load content of file in a TextBlock
             if (result == true)
             {
-                FileName.Content= $"Loading File: {openFileDlg.SafeFileName}";
-                CsvHandler csvHandler = new CsvHandler(openFileDlg.FileName, DelayProgress.IsChecked.Value)
+                FileName.Content = $"Loading File: {openFileDlg.SafeFileName}";
+                _csvHandler = new CsvHandler(openFileDlg.FileName, DelayProgress.IsChecked.Value)
                 {
                     NotifyProgressDel = NewItemLoaded
                 };
+                CancelLoadingBtn.IsEnabled = true;
             }
         }
 
-        private void NewItemLoaded(object book,int index)
+        private void NewItemLoaded(object book, int index)
         {
             Books.Add(book as Book);
             TotalLoadedBooks.Content = $"Total Loaded Books Now : {index}";
             CurrentTotalBooks.Content = $"Current Books Count : {Books.Count}";
         }
 
+        private void DescriptionBtn_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show(Books[mainDataGrid.SelectedIndex].Description, "Book Description");
+        }
+
+        private void CancelLoadingBtn_Click(object sender, RoutedEventArgs e)
+        {
+            _csvHandler.StopLoading();
+            CancelLoadingBtn.IsEnabled = false;
+        }
+
+        private void ClearDataBtn_Click(object sender, RoutedEventArgs e)
+        {
+            this.Books.Clear();
+        }
     }
 }

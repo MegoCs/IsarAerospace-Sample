@@ -1,6 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Microsoft.VisualBasic.FileIO;
 using System.ComponentModel;
+using System.Globalization;
+using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading;
 
 namespace IsarAerospace.CsvLoader
@@ -11,14 +13,17 @@ namespace IsarAerospace.CsvLoader
         public OnProgressChanged NotifyProgressDel { get; set; }
         private BackgroundWorker _loadingWorker;
         private string _filePath;
+        private bool _delay;
         public CsvHandler(string fileName, bool delay)
         {
             _filePath = fileName;
+            _delay = delay;
             if (!string.IsNullOrEmpty(_filePath))
             {
                 _loadingWorker = new BackgroundWorker
                 {
-                    WorkerReportsProgress = true
+                    WorkerReportsProgress = true,
+                    WorkerSupportsCancellation = true
                 };
 
                 _loadingWorker.RunWorkerCompleted += LoadingWorker_RunWorkerCompleted;
@@ -40,26 +45,40 @@ namespace IsarAerospace.CsvLoader
         {
             BackgroundWorker worker = sender as BackgroundWorker;
 
-            Random random = new Random();
-
-            for (int i = 0; i < 20; i++)
+            using (TextFieldParser parser = new TextFieldParser(_filePath))
             {
-                var book = new Book()
+                parser.TextFieldType = FieldType.Delimited;
+                parser.SetDelimiters(";");
+                int i = -1;
+                while (!parser.EndOfData)
                 {
-                    Title = $"Title {random.Next(0,100)}",
-                    Author = $"Author {random.Next(0, 100)} ",
-                    Year = random.Next(1990, 2020),
-                    Price = random.Next(0, 3000),
-                    InStock = random.Next() % 2 == 0,
-                    Description = $"This is Awsome {i}",
-                    Binding = new List<string>(){
-                        "Winner of the 1973 National Book Award",
-                        "Gravity's Rainbow is a postmodern epic",
-                        "a work as exhaustively significant to the second half of the 20th century as Joyce's Ulysses was to the first. Its sprawling"
+                    //Processing row
+                    string[] fields = parser.ReadFields();
+                    if (i == -1)
+                    {
+                        i++;
+                        continue;
                     }
-                };
-                worker.ReportProgress(i, book);
-                Thread.Sleep(2000);
+                    var book = new Book()
+                    {
+                        Title = fields[0],
+                        Author = fields[1],
+                        Year = int.Parse(fields[2]),
+                        Price = decimal.Parse(fields[3]),
+                        InStock = fields[4].ToLower() == "yes",
+                        Binding = fields[5].Split(',').ToList(),
+                        Description = fields[6]
+                    };
+
+                    //Skip Headers
+
+                    if (worker.CancellationPending)
+                        break;
+
+                    worker.ReportProgress(++i, book);
+                    if (_delay)
+                        Thread.Sleep(4000);
+                }
             }
         }
 
@@ -67,5 +86,11 @@ namespace IsarAerospace.CsvLoader
         {
 
         }
+
+        public void StopLoading()
+        {
+            _loadingWorker.CancelAsync();
+        }
+
     }
 }

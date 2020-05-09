@@ -16,7 +16,10 @@
             <StackPanel Grid.Column="0" Margin="20" Height="auto" Width="auto">
             <Button x:Name="LoadFileBtn" Click="LoadFileBtn_Click" Content="Load Data File" Margin="0,0,0,10"/>
             <Button x:Name="RemoveOutOfStockItemsBtn" Click="RemoveOutOfStockItemsBtn_Click" Content="Delete out-of-stock" Margin="0,0,0,10"/>
-            <Label x:Name="FileName" Margin="0,0,0,10"></Label>
+            <Button x:Name="ClearDataBtn" Click="ClearDataBtn_Click" Content="Clear The List" Margin="0,0,0,10"/>
+            <Button x:Name="CancelLoadingBtn" IsEnabled="False" Click="CancelLoadingBtn_Click" Content="Cancel Loading" Margin="0,0,0,10"/>
+
+            <Label x:Name="FileName" Margin="0,0,0,10">Loading File: </Label>
             <CheckBox x:Name="DelayProgress" Margin="0,0,0,10">Simulate Delay</CheckBox>
             <Label x:Name="TotalLoadedBooks" Margin="0,0,0,10"></Label>
             <Label x:Name="CurrentTotalBooks" Margin="0,0,0,10"></Label>
@@ -65,14 +68,14 @@
                     <DataGridTemplateColumn Header="Binding">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <ComboBox ItemsSource="{Binding Binding}" IsTextSearchEnabled="True" ></ComboBox>
+                                <ComboBox ItemsSource="{Binding Binding}" SelectedIndex="0" IsTextSearchEnabled="True" ></ComboBox>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
                     <DataGridTemplateColumn Header="Description">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <Button x:Name="DescriptionBtn" Content="" ToolTip="{Binding Description}"></Button>
+                                <Button x:Name="DescriptionBtn" Content="" Click="DescriptionBtn_Click" ToolTip="{Binding Description}"></Button>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>

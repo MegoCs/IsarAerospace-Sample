@@ -96,7 +96,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\IsarAerospace.CsvLoader\IsarAerospace.CsvLoader.csproj">
-      <Project>{EBB7D997-2E44-4659-AD3D-09A653A7D5D8}</Project>
+      <Project>{C3EF3B72-2A70-4C02-9AC9-AB3DBF0136C0}</Project>
       <Name>IsarAerospace.CsvLoader</Name>
     </ProjectReference>
   </ItemGroup>
