@@ -1,0 +1,68 @@
+﻿<Window x:Class="IsarAerospace.DataViewer.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:IsarAerospace.DataViewer"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+
+    <Grid>
+        <DataGrid x:Name="mainDataGrid" HorizontalAlignment="Left" Height="346" Margin="10" VerticalAlignment="Top" AutoGenerateColumns = "False">
+            
+            <DataGrid.RowStyle>
+                <Style TargetType="DataGridRow">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding InStock}" Value="true">
+                            <Setter Property="Background" Value="White"></Setter>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding InStock}" Value="false">
+                            <Setter Property="Background" Value="Aqua"></Setter>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.RowStyle>
+            
+            <DataGrid.Columns>
+                <DataGridTextColumn Header = "Title" Binding = "{Binding Title}" />
+                <DataGridTextColumn Header = "Author" Binding = "{Binding Author}" />
+                <DataGridTextColumn Header = "Year" Binding = "{Binding Year}" />
+                <DataGridTemplateColumn Header = "Price">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock TextAlignment="Center" Text="{Binding Price}">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                        <Setter Property="Background" >
+                                            <Setter.Value>
+                                                <LinearGradientBrush StartPoint="1,0" EndPoint="0,1">
+                                                    <GradientStop Offset="0" Color="#888888"/>
+                                                    <GradientStop Offset="1" Color="#FFFFF86E"/>
+                                                </LinearGradientBrush>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridCheckBoxColumn Header = "InStock" Binding = "{Binding InStock}"/>
+                <DataGridTemplateColumn Header="Binding">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <ComboBox ItemsSource="{Binding Binding}" SelectedIndex="0"></ComboBox>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Description">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button x:Name="DescriptionBtn" Content="" ToolTip="{Binding Description}"></Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Window>
