@@ -1,7 +1,10 @@
 ﻿using IsarAerospace.CsvLoader;
+using IsarAerospace.DataViewer.Converters;
 using Microsoft.Win32;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace IsarAerospace.DataViewer
 {
@@ -51,8 +54,8 @@ namespace IsarAerospace.DataViewer
         private void NewItemLoaded(object book, int index)
         {
             Books.Add(book as Book);
-            TotalLoadedBooks.Content = $"Total Loaded Books: {index}";
-            CurrentTotalBooks.Content = $"Current Books Count: {Books.Count}";
+            NumberToColorConverter.MaxGradientValue = Books.Max(x => x.Price);
+            TotalLoadedBooks.Content = $"{index}";
         }
 
         private void DescriptionBtn_Click(object sender, RoutedEventArgs e)
@@ -69,7 +72,6 @@ namespace IsarAerospace.DataViewer
         private void ClearDataBtn_Click(object sender, RoutedEventArgs e)
         {
             this.Books.Clear();
-            CurrentTotalBooks.Content = $"Current Books Count: {Books.Count}";
         }
     }
 }

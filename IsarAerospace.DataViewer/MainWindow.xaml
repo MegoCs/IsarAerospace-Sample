@@ -1,84 +1,77 @@
-﻿<Window x:Class="IsarAerospace.DataViewer.MainWindow"
+﻿<Window x:Name="window" x:Class="IsarAerospace.DataViewer.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:IsarAerospace.DataViewer"
+        xmlns:converters="clr-namespace:IsarAerospace.DataViewer.Converters"
         mc:Ignorable="d"
-        Title="MainWindow" Height="auto" Width="auto">
+        Title="Isar Aerospace" Height="auto" Width="auto" Icon="logo.png" Background="White">
+
+    <Window.Resources>
+        <converters:NumberToColorConverter x:Key="NumberToColorConverter"/>
+    </Window.Resources>
 
     <Grid ShowGridLines="True">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
 
-            <StackPanel Grid.Column="0" Margin="20" Height="auto" Width="auto">
+        <StackPanel Grid.Column="0" Margin="20" Height="auto" Width="auto">
             <Button x:Name="LoadFileBtn" Click="LoadFileBtn_Click" Content="Load Data File" Margin="0,0,0,10" />
             <Button x:Name="RemoveOutOfStockItemsBtn" Click="RemoveOutOfStockItemsBtn_Click" Content="Delete out-of-stock" Margin="0,0,0,10" />
-            <Button x:Name="ClearDataBtn" Click="ClearDataBtn_Click" Content="Clear The List" Margin="0,0,0,10" />
-            <Button x:Name="CancelLoadingBtn" IsEnabled="False" Click="CancelLoadingBtn_Click" Content="Cancel Loading" Margin="0,0,0,10" />
+            <Button x:Name="ClearDataBtn" Click="ClearDataBtn_Click" Content="Clear The List" Margin="0,0,0,10" Background="#FFDDDDDD" />
+            <Button x:Name="CancelLoadingBtn" IsEnabled="False" Click="CancelLoadingBtn_Click" Content="Cancel Loading Safely" Margin="0,0,0,10" />
 
-            <Label x:Name="FileName" Margin="0,0,0,10">Loading File: </Label>
+            <Label x:Name="FileName" Margin="0,0,0,10">Loading File:</Label>
             <CheckBox x:Name="DelayProgress" Margin="0,0,0,10">Simulate Delay</CheckBox>
-            <Label x:Name="TotalLoadedBooks" Margin="0,0,0,10"></Label>
-            <Label x:Name="CurrentTotalBooks" Margin="0,0,0,10"></Label>
+            <Label Margin="0,0,0,0">Total Loaded Records</Label>
+            <Label x:Name="TotalLoadedBooks" Margin="0,0,0,10">0</Label>
+            <Label Margin="0,0,0,0">Current Records:</Label>
+            <Label x:Name="CurrentTotalBooks" Margin="0,0,0,0" Content="{Binding Items.Count, ElementName=mainDataGrid, Mode=OneWay}"></Label>
         </StackPanel>
         <DataGrid Grid.Column="1" x:Name="mainDataGrid" HorizontalAlignment="Left" Height="auto" Width="auto" Margin="20" VerticalAlignment="Top" CanUserAddRows="False" AutoGenerateColumns="False">
-                <DataGrid.RowStyle>
-                    <Style TargetType="DataGridRow">
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding InStock}" Value="true">
-                                <Setter Property="Background" Value="White"></Setter>
-                            </DataTrigger>
-                            <DataTrigger Binding="{Binding InStock}" Value="false">
-                                <Setter Property="Background" Value="Aqua"></Setter>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </DataGrid.RowStyle>
+            <DataGrid.RowStyle>
+                <Style TargetType="DataGridRow">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding InStock}" Value="true">
+                            <Setter Property="Background" Value="White"></Setter>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding InStock}" Value="false">
+                            <Setter Property="Background" Value="Aqua"></Setter>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.RowStyle>
 
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header = "Title" Binding = "{Binding Title}" />
-                    <DataGridTextColumn Header = "Author" Binding = "{Binding Author}" />
-                    <DataGridTextColumn Header = "Year" Binding = "{Binding Year}" />
-                    <DataGridTemplateColumn Header = "Price" SortMemberPath="Price">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <TextBlock TextAlignment="Center" Text="{Binding Price}">
-
-                                    <!--<TextBlock.Style>
-                                        <Style TargetType="TextBlock">
-                                            <Setter Property="Foreground">
-                                                <Setter.Value>
-                                                    <LinearGradientBrush StartPoint="1,0" EndPoint="0,1">
-                                                        <GradientStop Offset="0" Color="#888888" />
-                                                        <GradientStop Offset="1" Color="#FFFFF86E" />
-                                                    </LinearGradientBrush>
-                                                </Setter.Value>
-                                            </Setter>
-                                        </Style>
-                                    </TextBlock.Style>-->
-                                </TextBlock>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridCheckBoxColumn Header = "InStock" Binding = "{Binding InStock}" />
-                    <DataGridTemplateColumn Header="Binding">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <ComboBox ItemsSource="{Binding Binding}" SelectedIndex="0" IsTextSearchEnabled="True" ></ComboBox>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="Description">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Button x:Name="DescriptionBtn" Content="" Click="DescriptionBtn_Click" ToolTip="{Binding Description}"></Button>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                </DataGrid.Columns>
-            </DataGrid>
-        </Grid>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header = "Title" Binding = "{Binding Title}" />
+                <DataGridTextColumn Header = "Author" Binding = "{Binding Author}" />
+                <DataGridTextColumn Header = "Year" Binding = "{Binding Year}" />
+                <DataGridTemplateColumn Header = "Price" SortMemberPath="Price">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock x:Name="PriceTxt" TextAlignment="Center" Text="{Binding Price}" Background="{Binding Price,Converter ={StaticResource NumberToColorConverter}}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridCheckBoxColumn Header = "InStock" Binding = "{Binding InStock}" />
+                <DataGridTemplateColumn Header="Binding">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <ComboBox ItemsSource="{Binding Binding}" SelectedIndex="0" IsTextSearchEnabled="True" ></ComboBox>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Description">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button x:Name="DescriptionBtn" Content="" Click="DescriptionBtn_Click" ToolTip="{Binding Description}"></Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
 </Window>

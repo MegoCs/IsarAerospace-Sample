@@ -66,7 +66,7 @@ namespace IsarAerospace.CsvLoader
                         Title = fields[0],
                         Author = fields[1],
                         Year = int.Parse(fields[2]),
-                        Price = decimal.Parse(fields[3]),
+                        Price = double.Parse(fields[3]),
                         InStock = fields[4].ToLower() == "yes",
                         Binding = fields[5].Split(',').ToList(),
                         Description = fields[6]
