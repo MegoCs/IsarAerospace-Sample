@@ -31,7 +31,7 @@ namespace IsarAerospace.DataViewer
         private void LoadFileBtn_Click(object sender, RoutedEventArgs e)
         {
             // Create OpenFileDialog
-            OpenFileDialog openFileDlg = new OpenFileDialog();
+            var openFileDlg = new OpenFileDialog();
 
             // Launch OpenFileDialog by calling ShowDialog method
             var result = openFileDlg.ShowDialog();

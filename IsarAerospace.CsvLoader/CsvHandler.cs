@@ -45,7 +45,7 @@ namespace IsarAerospace.CsvLoader
         {
             BackgroundWorker worker = sender as BackgroundWorker;
 
-            using (TextFieldParser parser = new TextFieldParser(_filePath))
+            using (var parser = new TextFieldParser(_filePath))
             {
                 parser.TextFieldType = FieldType.Delimited;
                 parser.SetDelimiters(";");
