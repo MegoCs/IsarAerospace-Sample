@@ -13,6 +13,7 @@ namespace IsarAerospace.DataViewer
         private CsvHandler _csvHandler;
 
         public ObservableCollection<Book> Books { get; set; }
+
         public MainWindow()
         {
             InitializeComponent();
@@ -29,7 +30,6 @@ namespace IsarAerospace.DataViewer
 
         private void LoadFileBtn_Click(object sender, RoutedEventArgs e)
         {
-
             // Create OpenFileDialog
             OpenFileDialog openFileDlg = new OpenFileDialog();
 

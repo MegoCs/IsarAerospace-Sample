@@ -1,19 +1,19 @@
 ﻿using Microsoft.VisualBasic.FileIO;
 using System.ComponentModel;
-using System.Globalization;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Threading;
 
 namespace IsarAerospace.CsvLoader
 {
     public delegate void OnProgressChanged(object loadedObject, int rowNumber);
+
     public class CsvHandler
     {
         public OnProgressChanged NotifyProgressDel { get; set; }
         private BackgroundWorker _loadingWorker;
         private string _filePath;
         private bool _delay;
+
         public CsvHandler(string fileName, bool delay)
         {
             _filePath = fileName;
@@ -54,6 +54,8 @@ namespace IsarAerospace.CsvLoader
                 {
                     //Processing row
                     string[] fields = parser.ReadFields();
+
+                    //Skip Headers
                     if (i == -1)
                     {
                         i++;
@@ -70,27 +72,23 @@ namespace IsarAerospace.CsvLoader
                         Description = fields[6]
                     };
 
-                    //Skip Headers
-
                     if (worker.CancellationPending)
                         break;
 
                     worker.ReportProgress(++i, book);
                     if (_delay)
-                        Thread.Sleep(4000);
+                        Thread.Sleep(3000);
                 }
             }
         }
 
         private void LoadingWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-
         }
 
         public void StopLoading()
         {
             _loadingWorker.CancelAsync();
         }
-
     }
 }

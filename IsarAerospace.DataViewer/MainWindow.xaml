@@ -14,10 +14,10 @@
             </Grid.ColumnDefinitions>
 
             <StackPanel Grid.Column="0" Margin="20" Height="auto" Width="auto">
-            <Button x:Name="LoadFileBtn" Click="LoadFileBtn_Click" Content="Load Data File" Margin="0,0,0,10"/>
-            <Button x:Name="RemoveOutOfStockItemsBtn" Click="RemoveOutOfStockItemsBtn_Click" Content="Delete out-of-stock" Margin="0,0,0,10"/>
-            <Button x:Name="ClearDataBtn" Click="ClearDataBtn_Click" Content="Clear The List" Margin="0,0,0,10"/>
-            <Button x:Name="CancelLoadingBtn" IsEnabled="False" Click="CancelLoadingBtn_Click" Content="Cancel Loading" Margin="0,0,0,10"/>
+            <Button x:Name="LoadFileBtn" Click="LoadFileBtn_Click" Content="Load Data File" Margin="0,0,0,10" />
+            <Button x:Name="RemoveOutOfStockItemsBtn" Click="RemoveOutOfStockItemsBtn_Click" Content="Delete out-of-stock" Margin="0,0,0,10" />
+            <Button x:Name="ClearDataBtn" Click="ClearDataBtn_Click" Content="Clear The List" Margin="0,0,0,10" />
+            <Button x:Name="CancelLoadingBtn" IsEnabled="False" Click="CancelLoadingBtn_Click" Content="Cancel Loading" Margin="0,0,0,10" />
 
             <Label x:Name="FileName" Margin="0,0,0,10">Loading File: </Label>
             <CheckBox x:Name="DelayProgress" Margin="0,0,0,10">Simulate Delay</CheckBox>
@@ -37,7 +37,7 @@
                         </Style.Triggers>
                     </Style>
                 </DataGrid.RowStyle>
-                
+
                 <DataGrid.Columns>
                     <DataGridTextColumn Header = "Title" Binding = "{Binding Title}" />
                     <DataGridTextColumn Header = "Author" Binding = "{Binding Author}" />
@@ -46,25 +46,24 @@
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock TextAlignment="Center" Text="{Binding Price}">
-                                    
+
                                     <!--<TextBlock.Style>
                                         <Style TargetType="TextBlock">
-                                            <Setter Property="Foreground" >
+                                            <Setter Property="Foreground">
                                                 <Setter.Value>
                                                     <LinearGradientBrush StartPoint="1,0" EndPoint="0,1">
-                                                        <GradientStop Offset="0" Color="#888888"/>
-                                                        <GradientStop Offset="1" Color="#FFFFF86E"/>
+                                                        <GradientStop Offset="0" Color="#888888" />
+                                                        <GradientStop Offset="1" Color="#FFFFF86E" />
                                                     </LinearGradientBrush>
                                                 </Setter.Value>
                                             </Setter>
                                         </Style>
                                     </TextBlock.Style>-->
-                                
                                 </TextBlock>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridCheckBoxColumn Header = "InStock" Binding = "{Binding InStock}"/>
+                    <DataGridCheckBoxColumn Header = "InStock" Binding = "{Binding InStock}" />
                     <DataGridTemplateColumn Header="Binding">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
@@ -80,7 +79,6 @@
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
                 </DataGrid.Columns>
-                
             </DataGrid>
         </Grid>
 </Window>
