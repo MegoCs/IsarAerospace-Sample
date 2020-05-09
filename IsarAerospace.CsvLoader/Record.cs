@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace IsarAerospace.CsvLoader
 {
-    public class Record
+    public class Book
     {
         public string Title { get; set; }
         public string Author {get;set;}

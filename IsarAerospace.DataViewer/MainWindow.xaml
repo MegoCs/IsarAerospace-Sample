@@ -5,64 +5,75 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:IsarAerospace.DataViewer"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="auto" Width="auto">
 
-    <Grid>
-        <DataGrid x:Name="mainDataGrid" HorizontalAlignment="Left" Height="346" Margin="10" VerticalAlignment="Top" AutoGenerateColumns = "False">
-            
-            <DataGrid.RowStyle>
-                <Style TargetType="DataGridRow">
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding InStock}" Value="true">
-                            <Setter Property="Background" Value="White"></Setter>
-                        </DataTrigger>
-                        <DataTrigger Binding="{Binding InStock}" Value="false">
-                            <Setter Property="Background" Value="Aqua"></Setter>
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </DataGrid.RowStyle>
-            
-            <DataGrid.Columns>
-                <DataGridTextColumn Header = "Title" Binding = "{Binding Title}" />
-                <DataGridTextColumn Header = "Author" Binding = "{Binding Author}" />
-                <DataGridTextColumn Header = "Year" Binding = "{Binding Year}" />
-                <DataGridTemplateColumn Header = "Price">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBlock TextAlignment="Center" Text="{Binding Price}">
-                        <TextBlock.Style>
-                            <Style TargetType="TextBlock">
-                                        <Setter Property="Background" >
-                                            <Setter.Value>
-                                                <LinearGradientBrush StartPoint="1,0" EndPoint="0,1">
-                                                    <GradientStop Offset="0" Color="#888888"/>
-                                                    <GradientStop Offset="1" Color="#FFFFF86E"/>
-                                                </LinearGradientBrush>
-                                            </Setter.Value>
-                                        </Setter>
-                                    </Style>
-                        </TextBlock.Style>
-                    </TextBlock>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridCheckBoxColumn Header = "InStock" Binding = "{Binding InStock}"/>
-                <DataGridTemplateColumn Header="Binding">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <ComboBox ItemsSource="{Binding Binding}" SelectedIndex="0"></ComboBox>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTemplateColumn Header="Description">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <Button x:Name="DescriptionBtn" Content="" ToolTip="{Binding Description}"></Button>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-            </DataGrid.Columns>
-        </DataGrid>
-    </Grid>
+    <Grid ShowGridLines="True">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Column="0" Margin="20" Height="auto" Width="auto">
+            <Button x:Name="LoadFileBtn" Click="LoadFileBtn_Click" Content="Load Data File" Margin="0,0,0,10"/>
+            <Button x:Name="RemoveOutOfStockItemsBtn" Click="RemoveOutOfStockItemsBtn_Click" Content="Delete out-of-stock" Margin="0,0,0,10"/>
+            </StackPanel>
+        <DataGrid Grid.Column="1" x:Name="mainDataGrid" HorizontalAlignment="Left" Height="auto" Width="auto" Margin="20" VerticalAlignment="Top" CanUserAddRows="False" AutoGenerateColumns="False">
+                <DataGrid.RowStyle>
+                    <Style TargetType="DataGridRow">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding InStock}" Value="true">
+                                <Setter Property="Background" Value="White"></Setter>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding InStock}" Value="false">
+                                <Setter Property="Background" Value="Aqua"></Setter>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </DataGrid.RowStyle>
+                
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header = "Title" Binding = "{Binding Title}" />
+                    <DataGridTextColumn Header = "Author" Binding = "{Binding Author}" />
+                    <DataGridTextColumn Header = "Year" Binding = "{Binding Year}" />
+                    <DataGridTemplateColumn Header = "Price" SortMemberPath="Price">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock TextAlignment="Center" Text="{Binding Price}">
+                                    
+                                    <!--<TextBlock.Style>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="Foreground" >
+                                                <Setter.Value>
+                                                    <LinearGradientBrush StartPoint="1,0" EndPoint="0,1">
+                                                        <GradientStop Offset="0" Color="#888888"/>
+                                                        <GradientStop Offset="1" Color="#FFFFF86E"/>
+                                                    </LinearGradientBrush>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Style>
+                                    </TextBlock.Style>-->
+                                
+                                </TextBlock>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridCheckBoxColumn Header = "InStock" Binding = "{Binding InStock}"/>
+                    <DataGridTemplateColumn Header="Binding">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <ComboBox ItemsSource="{Binding Binding}" IsTextSearchEnabled="True" ></ComboBox>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="Description">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button x:Name="DescriptionBtn" Content="" ToolTip="{Binding Description}"></Button>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+                
+            </DataGrid>
+        </Grid>
 </Window>
