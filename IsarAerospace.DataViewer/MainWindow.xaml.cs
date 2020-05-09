@@ -36,7 +36,7 @@ namespace IsarAerospace.DataViewer
             // Launch OpenFileDialog by calling ShowDialog method
             var result = openFileDlg.ShowDialog();
 
-            // Load content of file in a TextBlock
+            // if file is selected
             if (result == true)
             {
                 FileName.Content = $"Loading File: {openFileDlg.SafeFileName}";

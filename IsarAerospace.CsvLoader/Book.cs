@@ -11,10 +11,6 @@ namespace IsarAerospace.CsvLoader
         public decimal Price {get;set;}
         public bool InStock {get;set;}
         public List<string> Binding {get;set;}
-        public string FirstBinding { get {
-                return Binding?.FirstOrDefault()??string.Empty;
-            }
-        }
         public string Description{get;set;}        
     }
 }
