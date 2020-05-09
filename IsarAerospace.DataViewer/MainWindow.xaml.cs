@@ -51,8 +51,8 @@ namespace IsarAerospace.DataViewer
         private void NewItemLoaded(object book, int index)
         {
             Books.Add(book as Book);
-            TotalLoadedBooks.Content = $"Total Loaded Books Now : {index}";
-            CurrentTotalBooks.Content = $"Current Books Count : {Books.Count}";
+            TotalLoadedBooks.Content = $"Total Loaded Books: {index}";
+            CurrentTotalBooks.Content = $"Current Books Count: {Books.Count}";
         }
 
         private void DescriptionBtn_Click(object sender, RoutedEventArgs e)
@@ -69,6 +69,7 @@ namespace IsarAerospace.DataViewer
         private void ClearDataBtn_Click(object sender, RoutedEventArgs e)
         {
             this.Books.Clear();
+            CurrentTotalBooks.Content = $"Current Books Count: {Books.Count}";
         }
     }
 }
